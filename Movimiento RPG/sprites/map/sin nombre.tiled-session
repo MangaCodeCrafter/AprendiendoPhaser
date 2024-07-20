@@ -1,0 +1,29 @@
+{
+    "activeFile": "map.json",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "": {
+            "scaleInEditor": 1
+        },
+        "map.json": {
+            "scale": 0.890625,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 479.43859649122794,
+                "y": 183.01754385964915
+            }
+        },
+        "map.json#Plains": {
+            "scaleInDock": 1
+        }
+    },
+    "map.lastUsedFormat": "json",
+    "openFiles": [
+        "map.json"
+    ],
+    "project": "sin nombre.tiled-project",
+    "recentFiles": [
+        "map.json"
+    ]
+}
