@@ -1,4 +1,4 @@
-import { Example } from "./Example.js";
+import { Example } from "./src/Scenes/Example.js";
 
 const config = {
     type: Phaser.AUTO,
