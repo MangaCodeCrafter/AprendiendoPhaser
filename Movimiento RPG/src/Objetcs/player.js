@@ -5,12 +5,12 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
 
         // COLISIONES
-        this.setCollideWorldBounds(true)
+        //this.setCollideWorldBounds(true)
 
         this.setScale(2)
 
-        this.body.setSize(this.width * 0.4, this.height * 0.5); // Ajusta el tamaño del área de colisión
-        this.body.setOffset(this.width * 0.31, this.height * 0.43); // Ajusta el desplazamiento del área de colisión
+        this.body.setSize(this.width * 0.29, this.height * 0.5); // Ajusta el tamaño del área de colisión
+        this.body.setOffset(this.width * 0.36, this.height * 0.43); // Ajusta el desplazamiento del área de colisión
 
 
         // ANIMACIONES
@@ -46,31 +46,42 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(cursors){
-        let velocidad = 4
+
+        let velocidad = 160
+
+        let velocityX = 0
+        let velocityY = 0
 
         if (cursors.left.isDown) {
             this.flipX = true 
             this.anims.play('lWalk', true)
-            this.setVelocityX(-160);           
+            velocityX = -velocidad          
         }
         else if (cursors.right.isDown) { 
             this.flipX = false
             this.anims.play('lWalk', true)
-            this.setVelocityX(160);
+            velocityX = velocidad
         }
         else if (cursors.up.isDown) { 
             this.anims.play('uWalk', true)
-            this.setVelocityY(-160);
+            velocityY = -velocidad
         }
         else if (cursors.down.isDown) { 
             this.anims.play('dWalk', true)
-            this.setVelocityY(160);
+            velocityY = velocidad
         }
-        else{
+        
+        if (velocityX !== 0 && velocityY !== 0){
+            velocityX *= Math.SQRT1_2
+            velocityY *= Math.SQRT1_2
+        }
+
+        this.setVelocityX(velocityX)
+        this.setVelocityY(velocityY)
+
+        if (velocityX === 0 && velocityY === 0){
             this.anims.stop()
             this.setFrame(0)
-            this.setVelocityY(0);
-            this.setVelocityX(0);
         }
     }
 }
