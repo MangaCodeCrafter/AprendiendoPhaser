@@ -8,6 +8,10 @@ export class Example extends Phaser.Scene {
 
     preload() {
         this.load.image('plains', 'sprites/map/plains.png')
+        this.load.image('grass', 'sprites/tilesets/grass.png')
+        this.load.image('top', 'sprites/objects/objects.png')
+        this.load.image('fences', 'sprites/tilesets/fences.png')
+
         this.load.tilemapTiledJSON('map', 'sprites/map/map.json')
 
         this.load.spritesheet('player', 'sprites/characters/player.png',
@@ -18,33 +22,43 @@ export class Example extends Phaser.Scene {
     create() {
         // CARGAR EL MAPA
         const map = this.make.tilemap({ key: 'map' })
-        const tiles = map.addTilesetImage('Plains', 'plains')
+
+        const tilesPlains = map.addTilesetImage('Plains', 'plains')
+        const tilesGrass = map.addTilesetImage('Grass', 'grass')
+        const tilesFences = map.addTilesetImage('fences', 'fences')
+        const tilesTop = map.addTilesetImage('Trees', 'top')
 
         //CREAR LAS CAPAS
-        const groundLayer = map.createLayer('Fondo', tiles, 0, 0)
-        const obtaculosLayer = map.createLayer('Obstaculos', tiles)
+        const groundLayer = map.createLayer('Fondo', [tilesPlains, tilesGrass], 0, 0)
+        const obtaculosLayer = map.createLayer('Obstaculos', [tilesPlains, tilesFences], 0, 0)
+        const topLayer = map.createLayer('Traspasables', tilesTop, 0, 0)
 
         //ESCALAR LAS CAPAS
         groundLayer.setScale(2)
         obtaculosLayer.setScale(2)
+        topLayer.setScale(2)
+
+        //AJUSTE DE PROFUNDIDAD
+        topLayer.setDepth(5)
 
         //COLISIONES DE MAPA
         obtaculosLayer.setCollisionByProperty({colision: true})
+        topLayer.setCollisionByProperty({colision: true})
 
         //CREAR AL JUGADOR
-        this.player = new Player(this, 900, 900, 'player')
+        this.player = new Player(this, 450, 450, 'player')
         this.cursors = this.input.keyboard.createCursorKeys()
 
         //COLISIONES CON EL JUGADOR
         this.physics.add.collider(this.player, obtaculosLayer)
+        this.physics.add.collider(this.player, topLayer)
 
         //CONFIGURACIÓN DE CAMARA
         this.camera = this.cameras.main
-        const mapWidth = map.widthInPixels * 2;
-        const mapHeight = map.heightInPixels * 2;
+        const mapWidth = map.widthInPixels * 2
+        const mapHeight = map.heightInPixels * 2
 
-        this.camera.setBounds(0, 0, mapWidth, mapHeight);
-        //this.camera.setBounds(0, 0, map.widthInPixels * 2, map.heightInPixels * 2)
+        this.camera.setBounds(0, 0, mapWidth, mapHeight)
     }
 
     update(){
