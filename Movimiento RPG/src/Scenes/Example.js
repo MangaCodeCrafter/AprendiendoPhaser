@@ -1,3 +1,4 @@
+import { Camera } from "../Objetcs/camera.js";
 import Player from "../Objetcs/player.js";
 
 export class Example extends Phaser.Scene {
@@ -54,39 +55,11 @@ export class Example extends Phaser.Scene {
         this.physics.add.collider(this.player, topLayer)
 
         //CONFIGURACIÓN DE CAMARA
-        this.camera = this.cameras.main
-        const mapWidth = map.widthInPixels * 2
-        const mapHeight = map.heightInPixels * 2
-
-        this.camera.setBounds(0, 0, mapWidth, mapHeight)
+        this.camera = new Camera(this, map)
     }
 
     update(){
-
-    this.player.update(this.cursors)   
-
-    const X = this.camera.worldView.x
-    const Y = this.camera.worldView.y
-    
-    if (this.cursors.right.isDown || this.cursors.left.isDown)
-        {
-            if (this.player.x >= 960){
-                this.camera.setScroll(1440, Y)
-            }
-            else if (this.player.x < 960){
-                this.camera.setScroll(0, Y)
-            }
-        }
-    
-    if (this.cursors.up.isDown || this.cursors.down.isDown)
-    {    
-        if (this.player.y >= 960){
-            this.camera.setScroll(X, 1440)
-        }
-        else if (this.player.y < 960){
-            this.camera.setScroll(X, 0)
-        }
+        this.player.update(this.cursors)   
+        this.camera.update(this.player)
     }
-    
-}
 }
