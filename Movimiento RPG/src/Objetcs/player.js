@@ -1,3 +1,5 @@
+import { canMove } from "./bubble.js"
+
 export default class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture){
         super(scene, x, y, texture)
@@ -52,28 +54,31 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         let velocityX = 0
         let velocityY = 0
 
-        if (cursors.left.isDown) {
-            this.flipX = true 
-            this.anims.play('lWalk', true)
-            velocityX = -velocidad          
-        }
-        else if (cursors.right.isDown) { 
-            this.flipX = false
-            this.anims.play('lWalk', true)
-            velocityX = velocidad
-        }
-        else if (cursors.up.isDown) { 
-            this.anims.play('uWalk', true)
-            velocityY = -velocidad
-        }
-        else if (cursors.down.isDown) { 
-            this.anims.play('dWalk', true)
-            velocityY = velocidad
-        }
-        
-        if (velocityX !== 0 && velocityY !== 0){
-            velocityX *= Math.SQRT1_2
-            velocityY *= Math.SQRT1_2
+        if(canMove)
+        {        
+            if (cursors.left.isDown) {
+                    this.flipX = true 
+                    this.anims.play('lWalk', true)
+                    velocityX = -velocidad      
+                }
+            else if (cursors.right.isDown) { 
+                this.flipX = false
+                this.anims.play('lWalk', true)
+                velocityX = velocidad
+            }
+            else if (cursors.up.isDown) { 
+                this.anims.play('uWalk', true)
+                velocityY = -velocidad
+            }
+            else if (cursors.down.isDown) { 
+                this.anims.play('dWalk', true)
+                velocityY = velocidad
+            }
+            
+            if (velocityX !== 0 && velocityY !== 0){
+                velocityX *= Math.SQRT1_2
+                velocityY *= Math.SQRT1_2
+            }
         }
 
         this.setVelocityX(velocityX)

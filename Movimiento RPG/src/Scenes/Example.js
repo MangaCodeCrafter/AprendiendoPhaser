@@ -1,11 +1,11 @@
 import { Camera } from "../Objetcs/camera.js";
 import Player from "../Objetcs/player.js";
+import { createSpeechBubble } from "../Objetcs/bubble.js";
 
 export class Example extends Phaser.Scene {
     constructor() {
         super({ key: 'example' });
     }
-
 
     preload() {
         this.load.image('plains', 'sprites/map/plains.png')
@@ -56,6 +56,19 @@ export class Example extends Phaser.Scene {
 
         //CONFIGURACIÓN DE CAMARA
         this.camera = new Camera(this, map)
+
+        //BURBUJA
+        const dialog = [
+            "Esta es a historia de elden ring.",
+            "También conocido como 'el tipo'.",
+            "Que solo tiene una misión",
+            "Buscar el Elden Ring",
+            "Y ser Elden Ring con el Elden Ring",
+            "Mejor dicho",
+            "El tipo con el Elden Ring"
+        ]
+
+        createSpeechBubble(this, 450, 450, 300, 70, dialog)
     }
 
     update(){
