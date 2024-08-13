@@ -31,7 +31,7 @@ export class Example extends Phaser.Scene {
 
         //CREAR LAS CAPAS
         const groundLayer = map.createLayer('Fondo', [tilesPlains, tilesGrass], 0, 0)
-        const obtaculosLayer = map.createLayer('Obstaculos', [tilesPlains, tilesFences], 0, 0)
+        const obtaculosLayer = map.createLayer('Obstaculos', [tilesPlains, tilesFences, tilesTop], 0, 0)
         const topLayer = map.createLayer('Traspasables', tilesTop, 0, 0)
 
         //ESCALAR LAS CAPAS

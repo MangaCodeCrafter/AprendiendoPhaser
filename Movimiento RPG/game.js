@@ -1,3 +1,5 @@
+import { StartMenu } from "./src/Scenes/StartMenu.js";
+import { TutorialMenu } from "./src/Scenes/TutorialMenu.js";
 import { Example } from "./src/Scenes/Example.js";
 
 const config = {
@@ -12,7 +14,7 @@ const config = {
             debug: true
         }
     },
-    scene: [Example]
+    scene: [StartMenu, TutorialMenu, Example]
 };
 
 var game = new Phaser.Game(config);

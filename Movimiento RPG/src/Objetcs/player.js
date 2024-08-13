@@ -11,8 +11,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         this.setScale(2)
 
-        this.body.setSize(this.width * 0.29, this.height * 0.5); // Ajusta el tamaño del área de colisión
-        this.body.setOffset(this.width * 0.36, this.height * 0.43); // Ajusta el desplazamiento del área de colisión
+        this.body.setSize(this.width * 0.24, this.height * 0.15); // Ajusta el tamaño del área de colisión
+        this.body.setOffset(this.width * 0.39, this.height * 0.75); // Ajusta el desplazamiento del área de colisión
 
 
         // ANIMACIONES
