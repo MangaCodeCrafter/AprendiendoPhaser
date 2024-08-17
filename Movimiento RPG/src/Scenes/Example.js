@@ -73,16 +73,10 @@ export class Example extends Phaser.Scene {
 
         //BURBUJA
         this.a = true
-        
-    }
 
-    update(){
-        this.player.update(this.cursors)   
-        this.camera.update(this.player)
-        this.npc.Idel()
-        this.ring.Idel()
-        
         if(this.a){
+            let i = 0
+
             const dialog = [
                 "Esta es a historia de elden ring.",
                 "También conocido como 'el tipo'.",
@@ -95,7 +89,22 @@ export class Example extends Phaser.Scene {
 
             createSpeechBubble(this, 450, 450, 300, 75, dialog)
 
-            this.a = false
+            this.input.keyboard.on('keydown', (event) => {
+                if(event.key === ' ' || event.key === 'Enter'){
+                    i++
+                }
+            })
+
+            if(i == dialog.length){
+                this.a = false
+            }
         }
+    }
+
+    update(){
+        this.player.update(this.cursors)   
+        this.camera.update(this.player)
+        this.npc.Idel()
+        this.ring.Idel()
     }
 }
