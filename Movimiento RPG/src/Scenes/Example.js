@@ -1,6 +1,8 @@
 import { Camera } from "../Objetcs/camera.js";
 import Player from "../Objetcs/player.js";
 import { createSpeechBubble } from "../Objetcs/bubble.js";
+import { NPC } from "../Objetcs/NPC.js";
+import { Object } from "../Objetcs/object.js";
 
 export class Example extends Phaser.Scene {
     constructor() {
@@ -17,6 +19,14 @@ export class Example extends Phaser.Scene {
 
         this.load.spritesheet('player', 'sprites/characters/player.png',
             { frameWidth: 48, frameHeight: 48 }
+        )
+
+        this.load.spritesheet('npc', 'sprites/characters/Sprite-0001.png',
+            { frameWidth: 16, frameHeight: 16 }
+        )
+
+        this.load.spritesheet('ring', 'sprites/Prototype-images/RingSpriteSheet.png',
+            { frameWidth: 16, frameHeight: 16 }
         )
     }
 
@@ -50,6 +60,10 @@ export class Example extends Phaser.Scene {
         this.player = new Player(this, 450, 450, 'player')
         this.cursors = this.input.keyboard.createCursorKeys()
 
+        //CREAR NPC
+        this.npc = new NPC(this, 500, 300, 'npc')
+        this.ring = new Object(this, 1600, 300, 'ring')
+ 
         //COLISIONES CON EL JUGADOR
         this.physics.add.collider(this.player, obtaculosLayer)
         this.physics.add.collider(this.player, topLayer)
@@ -58,21 +72,30 @@ export class Example extends Phaser.Scene {
         this.camera = new Camera(this, map)
 
         //BURBUJA
-        const dialog = [
-            "Esta es a historia de elden ring.",
-            "También conocido como 'el tipo'.",
-            "Que solo tiene una misión",
-            "Buscar el Elden Ring",
-            "Y ser Elden Ring con el Elden Ring",
-            "Mejor dicho",
-            "El tipo con el Elden Ring"
-        ]
-
-        createSpeechBubble(this, 450, 450, 300, 70, dialog)
+        this.a = true
+        
     }
 
     update(){
         this.player.update(this.cursors)   
         this.camera.update(this.player)
+        this.npc.Idel()
+        this.ring.Idel()
+        
+        if(this.a){
+            const dialog = [
+                "Esta es a historia de elden ring.",
+                "También conocido como 'el tipo'.",
+                "Que solo tiene una misión",
+                "Buscar el Elden Ring",
+                "Y ser Elden Ring con el Elden Ring",
+                "Mejor dicho",
+                "El tipo con el Elden Ring"
+            ]
+
+            createSpeechBubble(this, 450, 450, 300, 75, dialog)
+
+            this.a = false
+        }
     }
 }

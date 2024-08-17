@@ -17,9 +17,19 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
         // ANIMACIONES
         this.anims.create({
+            key: 'Idel',
+            frames: this.anims.generateFrameNumbers(
+                texture,
+                { start: 1, end: 5 },
+            ),
+            repeat: -1,
+            frameRate: 6
+        })
+
+        this.anims.create({
             key: 'lWalk',
             frames: this.anims.generateFrameNumbers(
-                'player',
+                texture,
                 { start: 24, end: 29 },
             ),
             repeat: -1,
@@ -29,7 +39,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.anims.create({
             key: 'uWalk',
             frames: this.anims.generateFrameNumbers(
-                'player',
+                texture,
                 { start: 30, end: 35 },
             ),
             repeat: -1,
@@ -39,7 +49,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.anims.create({
             key: 'dWalk',
             frames: this.anims.generateFrameNumbers(
-                'player',
+                texture,
                 { start: 18, end: 23 },
             ),
             repeat: -1,
@@ -49,7 +59,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     update(cursors){
 
-        let velocidad = 160
+        let velocidad = 200
 
         let velocityX = 0
         let velocityY = 0
@@ -85,8 +95,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityY(velocityY)
 
         if (velocityX === 0 && velocityY === 0){
-            this.anims.stop()
-            this.setFrame(0)
+            this.anims.play('Idel', true)
+
         }
     }
 }

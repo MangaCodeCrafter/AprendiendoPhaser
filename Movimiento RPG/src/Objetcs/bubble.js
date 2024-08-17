@@ -6,8 +6,6 @@ export function createSpeechBubble(scene, x, y, width, height, quote) {
     let i = 0
     let bubbleGroup
 
-    // a
-
     function createBubble(text) 
     {
         if (bubbleGroup) {

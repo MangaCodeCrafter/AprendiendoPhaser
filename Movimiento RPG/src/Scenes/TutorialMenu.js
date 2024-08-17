@@ -9,7 +9,7 @@ export class TutorialMenu extends Phaser.Scene{
             fill: '#ffffff'
         }).setOrigin(.45).setPosition(450, 250)
 
-        let dialog = this.add.text(0, 0, 'Para salar diálogos usar enter o barra espaciadora',{
+        let dialog = this.add.text(0, 0, 'Para saltar diálogos usar enter o barra espaciadora',{
             fontSize: '40px',
             fill: '#ffffff',
             wordWrap: { width: 900 }
