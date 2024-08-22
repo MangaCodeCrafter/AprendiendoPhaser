@@ -1,12 +1,12 @@
 import { Camera } from "../Objetcs/camera.js";
 import Player from "../Objetcs/player.js";
-import { createSpeechBubble } from "../Objetcs/bubble.js";
+import { Bubble, setCanMove, canMove } from "../Objetcs/bubble.js";
 import { NPC } from "../Objetcs/NPC.js";
 import { Object } from "../Objetcs/object.js";
 
 export class Example extends Phaser.Scene {
     constructor() {
-        super({ key: 'example' });
+        super({ key: 'example' })
     }
 
     preload() {
@@ -61,7 +61,7 @@ export class Example extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys()
 
         //CREAR NPC
-        this.npc = new NPC(this, 500, 300, 'npc')
+        this.npc = new NPC(this, 700, 300, 'npc')
         this.ring = new Object(this, 1600, 300, 'ring')
  
         //COLISIONES CON EL JUGADOR
@@ -72,33 +72,59 @@ export class Example extends Phaser.Scene {
         this.camera = new Camera(this, map)
 
         //BURBUJA
-        this.a = true
+        this.Dialog = [[
+            "Esta es a historia de elden ring.",
+            "También conocido como 'el tipo'.",
+            "Que solo tiene una misión",
+            "Buscar el Elden Ring",
+            "Y ser Elden Ring con el Elden Ring",
+            "Mejor dicho",
+            "El tipo con el Elden Ring"
+        ], [
+            "Master",
+            "Me enteré que buscas el Elden Ring",
+            "Está por allá",
+            "-->"
+        ],[
+            "Muchas gracias",
+            "Sos elmas",
+            "Elmas capito" 
+        ]]
 
-        if(this.a){
-            let i = 0
+        new Bubble(this, this.player, this.Dialog, 0).startDialog()
 
-            const dialog = [
-                "Esta es a historia de elden ring.",
-                "También conocido como 'el tipo'.",
-                "Que solo tiene una misión",
-                "Buscar el Elden Ring",
-                "Y ser Elden Ring con el Elden Ring",
-                "Mejor dicho",
-                "El tipo con el Elden Ring"
-            ]
+        // INTERACCION
 
-            createSpeechBubble(this, 450, 450, 300, 75, dialog)
+        this.isNearNPC = false
+        this.dialogueTriggerd = false
 
-            this.input.keyboard.on('keydown', (event) => {
-                if(event.key === ' ' || event.key === 'Enter'){
-                    i++
-                }
-            })
+        this.e = this.add.text(0, 0, 'Preciona espacio para charlar',{
+            fontSize: '40px',
+            fill: '#ffffff'
+        }).setOrigin(.45).setPosition(450, 270).setVisible(false)
 
-            if(i == dialog.length){
-                this.a = false
+        this.i = 0
+
+        this.input.keyboard.on('keydown', (event) => {
+            if(event.key === ' ' && this.i == 0 && this.isNearNPC){
+                console.log('evento')
+                new Bubble(this, this.npc, this.Dialog, 1).startDialog()
+                this.dialogueTriggerd = true
             }
-        }
+
+            if(this.isNearNPC && event.key === ' ') this.i++
+
+            if (this.i - 1 == this.Dialog[1].length) {
+                new Bubble(this, this.player, this.Dialog, 2).startDialog() 
+                this.i++
+            }
+
+            if (this.i == this.Dialog[1].length + this.Dialog[2].length + 2){
+                this.i = 0
+            }
+
+            console.log(this.i)
+        })
     }
 
     update(){
@@ -106,5 +132,20 @@ export class Example extends Phaser.Scene {
         this.camera.update(this.player)
         this.npc.Idel()
         this.ring.Idel()
+
+        // INTERACCION
+
+        let distance = Phaser.Math.Distance.Between(this.player.x, this.player.y, this.npc.x, this.npc.y)
+
+        this.isNearNPC = distance < 60 ? true : false
+ 
+        if(this.isNearNPC){
+            this.e.setVisible(true)
+            if (this.dialogueTriggerd) {this.e.setVisible(false)}
+        }
+        else{
+            this.e.setVisible(false)
+            this.dialogueTriggerd = false
+        } 
     }
 }

@@ -1,80 +1,81 @@
-export function createSpeechBubble(scene, x, y, width, height, quote) {
-    const bubbleWidth = width
-    const bubbleHeight = height
-    const bubblePadding = 10
-    const arrowHeight = bubbleHeight / 4
-    let i = 0
-    let bubbleGroup
+export class Bubble{
+    constructor(scene, player, quote, indexDialog){
+        this.scene = scene
+        this.player = player
+        this.quote = quote
+        this.indexDialog = indexDialog
+        this.bubble
+        this.bubbleText
+        this.bubbleGroup
+    }
 
-    function createBubble(text) 
-    {
-        if (bubbleGroup) {
-            bubbleGroup.destroy()  // Elimina la burbuja anterior
-        }
+    create(text) {
+        setCanMove(false)
+
+        if(this.bubbleGroup) this.bubbleGroup.destroy()
+
+        const width = 300
+        const height = 75
+        const arrowHeight = height / 4
+
         // Crear el gráfico para el fondo del globo
-        const bubble = scene.add.graphics({ x: x - (width / 2), y: y - (height + height * .33)})
+        this.bubble = this.scene.add.graphics({ x: this.player.x - (width / 2), y: this.player.y - (height + height * .33)})
 
         // Dibujar el rectángulo con esquinas redondeadas
-        bubble.fillStyle(0xffffff, 1)
-        bubble.fillRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16)
+        this.bubble.fillStyle(0xffffff, 1)
+        this.bubble.fillRoundedRect(0, 0, width, height, 16)
 
         // Dibujar la flecha del globo
-        bubble.fillTriangle(
-            bubbleWidth / 2 - arrowHeight, bubbleHeight,
-            bubbleWidth / 2 + arrowHeight, bubbleHeight,
-            bubbleWidth / 2, bubbleHeight + arrowHeight
+        this.bubble.fillTriangle(
+            width / 2 - arrowHeight, height,
+            width / 2 + arrowHeight, height,
+            width / 2, height + arrowHeight
         )
 
-        // Estilos del texto
         const config = {
             fontFamily: 'Arial',
             fontSize: 18,
             color: '#000000',
             align: 'center',
-            wordWrap: { width: bubbleWidth - 2 * bubblePadding }
+            wordWrap: { width: width - 2 * 10 }
         }
 
-        let bubbleText = scene.add.text(0, 0, quote[i], config)
+        this.bubbleText = this.scene.add.text(0, 0, text, config)
 
         // Centrar el texto dentro del globo
-        const b = bubbleText.getBounds();
-        bubbleText.setPosition(
-            bubble.x + bubbleWidth / 2 - b.width / 2,
-            bubble.y + bubbleHeight / 2 - b.height / 2
+        const b = this.bubbleText.getBounds()
+
+        this.bubbleText.setPosition(
+            this.bubble.x + width / 2 - b.width / 2,
+            this.bubble.y + height / 2 - b.height / 2
         )
 
-        // Ajuste de capas
-        bubble.setDepth(10)
-        bubbleText.setDepth(10)
-        
-        // Crear una referencia al globo y al texto para poder eliminarlos después
-        bubbleGroup = scene.add.container(0, 0, [bubble, bubbleText])
+        this.bubbleGroup = this.scene.add.container(0, 0, [this.bubble, this.bubbleText])
     }
 
-    createBubble(quote[i])
+    destroyBubble(){
+        this.bubbleGroup.destroy()
+    }
 
-    // Evento que destuye la burbuja
-    scene.input.keyboard.on('keydown', function (event) {
-        if (event.key === 'Enter' || event.key === ' ') 
-            {   
-                i++
-                if (i < quote.length)
-                {
-                    createBubble(quote[i])
-                }     
-                else{
-                    bubbleGroup.destroy()
-                    setCanMove(true)
-                }   
-            }
-    })
+    startDialog(){
+        this.i = 0
 
-    setCanMove(false)
-} 
+        this.create(this.quote[this.indexDialog][this.i])
 
-// Estados globales de las burbujas //
+        this.scene.input.keyboard.on('keydown-SPACE', this.nextDialog.bind(this))
+    }
 
-// Repasar sobre si es una practica buena o al menos aceptable.
+    nextDialog(){
+        this.i++
+        this.create(this.quote[this.indexDialog][this.i])
+
+        if(this.i >= this.quote[this.indexDialog].length){  
+            setCanMove(true)
+            this.destroyBubble()
+            this.scene.input.keyboard.off('keydown-SPACE')
+        }
+    }
+}
 
 export let canMove = false
 
