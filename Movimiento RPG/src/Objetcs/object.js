@@ -3,6 +3,7 @@ export class Object extends Phaser.Physics.Arcade.Sprite{
         super(scene, x, y, texture)
         
         scene.add.existing(this)
+        scene.physics.add.existing(this)
 
         this.setScale(2)
 
@@ -20,4 +21,6 @@ export class Object extends Phaser.Physics.Arcade.Sprite{
     Idel(){
         this.anims.play('Idel', true)
     }
+
+
 }
