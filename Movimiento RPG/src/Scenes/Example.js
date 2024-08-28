@@ -94,7 +94,7 @@ export class Example extends Phaser.Scene {
         this.player.update(this.cursors)   
         this.camera.update(this.player)
         this.npc.Idel()
-        this.ring.Idel()
+        if (this.ring.active) this.ring.Idel()
         this.dialogs.update()
 
         this.xd.update()

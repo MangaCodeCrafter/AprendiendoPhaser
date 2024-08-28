@@ -1,4 +1,5 @@
 import { Bubble } from "../Objetcs/bubble.js";
+import { Inventory } from "../Objetcs/inventory.js";
 
 export class Dailogs {
     constructor(scene, player, npc){
@@ -26,6 +27,23 @@ export class Dailogs {
             "Muchas gracias",
             "Sos un chusma",
             "Pero gracias" 
+        ], [
+            "Mirá lo que tengo...",
+            "El mismísimo"
+        ], [
+            "Muy bien muchacho",
+            "Ahora viene el verdadero camino",
+            "El elden ring solo no es gran cosa",
+            "Solo sirve como guía",
+            "Equípatelo",
+            "Y encuentra la daga prohibida",
+            "Para derrotar a Walter",
+            "El portador de las gotas lunares",
+            "Y descubrir su secretos!"
+        ], [
+            "QUÉ?",
+            "No puedo creerlo",
+            "Descubriré sus secretos"
         ]]
 
         new Bubble(this.scene, this.player, this.Dialog, 0).startDialog()
@@ -43,20 +61,46 @@ export class Dailogs {
         this.i = 0
 
         this.l = this.scene.input.keyboard.on('keydown', (event) => {
-            if(event.key === ' ' && this.i == 0 && this.isNearNPC){
-                new Bubble(this.scene, this.npc, this.Dialog, 1).startDialog()
-                this.dialogueTriggerd = true
+            console.log(Inventory[0])
+
+            if(Inventory[0] != "ring"){
+                if(event.key === ' ' && this.i == 0 && this.isNearNPC){
+                    new Bubble(this.scene, this.npc, this.Dialog, 1).startDialog()
+                    this.dialogueTriggerd = true
+                }
+            
+                if(this.isNearNPC && event.key === ' ') this.i++
+            
+                if (this.i - 1 == this.Dialog[1].length) {
+                    new Bubble(this.scene, this.player, this.Dialog, 2).startDialog() 
+                    this.i++
+                }
+            
+                if (this.i == this.Dialog[1].length + this.Dialog[2].length + 2){
+                    this.i = 0
+                }
             }
-        
-            if(this.isNearNPC && event.key === ' ') this.i++
-        
-            if (this.i - 1 == this.Dialog[1].length) {
-                new Bubble(this.scene, this.player, this.Dialog, 2).startDialog() 
-                this.i++
-            }
-        
-            if (this.i == this.Dialog[1].length + this.Dialog[2].length + 2){
-                this.i = 0
+            else{
+                if(event.key === ' ' && this.i == 0 && this.isNearNPC){
+                    new Bubble(this.scene, this.player, this.Dialog, 3).startDialog()
+                    this.dialogueTriggerd = true
+                }
+            
+                if(this.isNearNPC && event.key === ' ') this.i++
+            
+                if (this.i - 1 == this.Dialog[3].length) {
+                    new Bubble(this.scene, this.npc, this.Dialog, 4).startDialog() 
+                    this.i++
+                }
+
+                if (this.i - 2 == this.Dialog[4].length + this.Dialog[3].length) {
+                    new Bubble(this.scene, this.player, this.Dialog, 5).startDialog() 
+                    this.i++
+                }
+            
+                if (this.i == this.Dialog[3].length + this.Dialog[4].length + this.Dialog[5].length + 3){
+                    this.i = 0
+                }
             }
         }) 
     }
