@@ -1,4 +1,4 @@
-import { Inventory } from "../Objetcs/inventory.js"
+import { Inventory } from "../Inventory/inventory.js"
 
 export class InventorySystem{
     constructor(scene, player, obj){
@@ -9,8 +9,6 @@ export class InventorySystem{
     }
 
     initInventory(){
-        console.log('iniciado')
-
         this.o = this.scene.add.text(0, 0, 'Preciona "e" para agarrar',{
             fontSize: '40px',
             fill: '#ffffff'
@@ -39,4 +37,4 @@ export class InventorySystem{
             console.log(Inventory)
         }
     }
-}
+} 

@@ -1,7 +1,7 @@
 import { Camera } from "../Objetcs/camera.js";
-import Player from "../Objetcs/player.js";
-import { NPC } from "../Objetcs/NPC.js";
-import { Object } from "../Objetcs/object.js";
+import Player from "../Entities/player.js";
+import { NPC } from "../Entities/NPC.js";
+import { Object } from "../Inventory/object.js";
 import { Dailogs } from "../Interactions/Dialogs.js";
 import { InventorySystem } from "../Interactions/inventorySystem.js";
 

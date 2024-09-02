@@ -1,5 +1,5 @@
 import { Bubble } from "../Objetcs/bubble.js";
-import { Inventory } from "../Objetcs/inventory.js";
+import { Inventory } from "../Inventory/inventory.js";
 
 export class Dailogs {
     constructor(scene, player, npc){
@@ -61,8 +61,6 @@ export class Dailogs {
         this.i = 0
 
         this.l = this.scene.input.keyboard.on('keydown', (event) => {
-            console.log(Inventory[0])
-
             if(Inventory[0] != "ring"){
                 if(event.key === ' ' && this.i == 0 && this.isNearNPC){
                     new Bubble(this.scene, this.npc, this.Dialog, 1).startDialog()
